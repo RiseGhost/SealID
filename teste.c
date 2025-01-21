@@ -21,6 +21,8 @@ int main(void){
     ID ff = ReadOfFile("data");
     printf("ID -> %s\n",IDtoString(ff));
     free(id_string);
+
+    
     printf("Singature -> %s\n", SignatureToString(CreateSignature()));
     return 0;
 }
