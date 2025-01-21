@@ -1,5 +1,5 @@
 #include <openssl/evp.h>
-#include "signature.c"
+#include "token.h"
 #define SIZE 8
 
 void PrintKey(unsigned  char* key){
@@ -21,8 +21,6 @@ int main(void){
     ID ff = ReadOfFile("data");
     printf("ID -> %s\n",IDtoString(ff));
     free(id_string);
-
-    
     printf("Singature -> %s\n", SignatureToString(CreateSignature()));
     return 0;
 }
