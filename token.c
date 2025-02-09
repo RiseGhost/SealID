@@ -1,14 +1,14 @@
 #include "token.h"
 #include <string.h>
 
-token CreateSignature(){
-  token s;
+Token CreateToken(const char* tag){
+  Token s;
   RAND_bytes(s.key,KEY_SIZE);
-  s.id = CreateID(s.key,KEY_SIZE);
+  s.id = CreateID(s.key,KEY_SIZE,tag);
   return s;
 }
 
-char* SignatureToString(token s){
+char* TokenToString(Token s){
   char* str_id = IDtoString(s.id);
   const char prefix[] = "Key - ";
   char* str = (char*) malloc(strlen(prefix) + KEY_SIZE * 2 + strlen(str_id) + 6);

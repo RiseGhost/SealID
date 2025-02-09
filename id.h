@@ -12,12 +12,13 @@ struct id {
     short indexs[3];
     int DotProduct;
     short Magnitude;
+    char tag[4];
 };
 typedef struct id ID;
 
 char* IDtoString(ID id);
 void SaveInFile(const char* filename, ID *id);
 ID ReadOfFile(const char* filename);
-char checkID(ID id, unsigned char* key, short key_length);
-ID CreateID(unsigned char* key, short key_length);
+char CheckID(ID id, unsigned char* key, short key_length);
+ID CreateID(unsigned char* key, short key_length, const char* tag);
 #endif

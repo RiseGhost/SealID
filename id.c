@@ -1,4 +1,5 @@
 #include "id.h"
+#include <string.h>
 /*
     Dada uma KEY de tamanho X. Em que X representa o número de bytes da chave, e X >= 4.
     É criado um ID tendo como base as informações da chave.
@@ -14,8 +15,9 @@
  */
 
 char* IDtoString(ID id){
-    char* str = (char*) malloc(sizeof(char) * 28);
-    sprintf(str,"%02x%02x%02x-%02x%02x%02x-%08x-%04x",
+    char* str = (char*) malloc(sizeof(char) * 34);
+    sprintf(str,"#%4s-%02x%02x%02x-%02x%02x%02x-%08x-%04x",
+            id.tag,
             id.key[0],id.key[1],id.key[2],
             id.indexs[0],id.indexs[1],id.indexs[2],
             id.DotProduct, id.Magnitude);
@@ -58,7 +60,7 @@ short Magnitude(char* key, short keylength){
     return sqrt(value);
 }
 
-char checkID(ID id, unsigned char* key, short key_length){
+char CheckID(ID id, unsigned char* key, short key_length){
     unsigned char key_id[3] = {
         key[id.indexs[0]],
         key[id.indexs[1]],
@@ -67,10 +69,10 @@ char checkID(ID id, unsigned char* key, short key_length){
     return DotProduct((char*) key_id,(char*) id.key,3) == id.DotProduct && Magnitude((char*) key,key_length) == id.Magnitude;
 }
 
-//Create a ID:
-ID CreateID(unsigned char* key, short key_length){
+ID CreateID(unsigned char* key, short key_length, const char* tag){
     srand(time(NULL));
     ID id = {0};
+    if (strlen(tag) <= 4) strcpy(id.tag,tag);
     RAND_bytes(id.key,sizeof(id.key));
     for (char i = 0; i < 3; i += !RepeatedValues(id.indexs,i+1)){
         id.indexs[i] = rand() % key_length;

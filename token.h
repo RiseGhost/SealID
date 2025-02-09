@@ -6,8 +6,8 @@ struct token{
     unsigned char key[KEY_SIZE];
     ID id;
 };
-typedef struct token token;
+typedef struct token Token;
 
-token CreateSignature();
-char* SignatureToString(token s);
+Token CreateToken(const char* tag);
+char* TokenToString(Token s);
 #endif
