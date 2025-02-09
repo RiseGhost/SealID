@@ -2,3 +2,6 @@
 *.sh
 .fleet
 *.out
+*.o
+run
+key

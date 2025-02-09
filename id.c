@@ -16,7 +16,7 @@
 
 char* IDtoString(ID id){
     char* str = (char*) malloc(sizeof(char) * 34);
-    sprintf(str,"#%4s-%02x%02x%02x-%02x%02x%02x-%08x-%04x",
+    sprintf(str,"#%s-%02x%02x%02x-%02x%02x%02x-%08x-%04x",
             id.tag,
             id.key[0],id.key[1],id.key[2],
             id.indexs[0],id.indexs[1],id.indexs[2],
@@ -25,10 +25,8 @@ char* IDtoString(ID id){
 }
 
 int DotProduct(char* key1, char* key2, short key_length){
-    int product = 0;
-    for (; key_length > 0; key_length--)
-        product += key1[key_length - 1] * key2[key_length - 1];
-    return product;
+    if (key_length == 0) return 0;
+    else return key1[key_length - 1] * key2[key_length - 1] + DotProduct(key1, key2, key_length - 1);
 }
 
 char RepeatedValues(short* array, short length){
