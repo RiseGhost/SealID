@@ -22,7 +22,7 @@ char* GetSaveFileName(int argc, char** argv){
     return "";
 }
 
-// Altera o argv[] para remover as flags "--save filename"
+// Altera o argv[] para remover os argumentos "--save filename"
 char** RemoveSaveFileName(int argc,char **argv){
     char** new_argv = (char**) malloc((argc - 2) * sizeof(char*));
     int i = 0;
@@ -44,10 +44,21 @@ int main(int argc, char** argv){
     char* SaveFileName = GetSaveFileName(argc,argv);
     char** flags = (strcmp(SaveFileName,"") == 0) ? argv : RemoveSaveFileName(argc,argv);
     int flags_number = (strcmp(SaveFileName,"") == 0) ? argc : argc - 2;
-    if (flags_number >= 2){
+    if (flags_number == 4){
+        if (strcmp(argv[1],"--check") != 0){
+            printf("Invalid argument %s\n", argv[1]);
+            return -1;
+        }
+        if (CheckID(ReadOfFile(argv[3]),ReadKey(argv[2]),KEY_SIZE) == 1) printf("Key accept\n");
+        else    printf("Invalid key\n");
+        return 0;
+    }
+    if (flags_number == 2 || flags_number == 3){
         unsigned char* key = ReadKey(flags[1]);
-        ID id = (flags_number == 2) ? CreateID(key,sizeof(key),"") : CreateID(key,sizeof(key),flags[2]);
-        if (strcmp(SaveFileName,"") != 0) SaveInFile(SaveFileName,&id);
+        ID id = (flags_number == 2) ? CreateID(key,KEY_SIZE,"") : CreateID(key,KEY_SIZE,flags[2]);
+        if (strcmp(SaveFileName,"") != 0){
+            SaveInFile(SaveFileName,&id);
+        }
         else printf("ID -> %s\n", IDtoString(id));
         free(key);
         return 0;
