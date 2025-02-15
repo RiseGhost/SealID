@@ -7,8 +7,12 @@
 unsigned char* ReadKey(const char* filename){
     unsigned char* key = (unsigned char*) malloc(KEY_SIZE);
     FILE* file = fopen(filename,"rb");
-    fread(key,1,KEY_SIZE,file);
+    long keyLength = fread(key,1,KEY_SIZE,file);
     fclose(file);
+    if (keyLength != KEY_SIZE){
+        printf("Invalid key file\n");
+        exit(-5);
+    }
     return key;
 }
 
