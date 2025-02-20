@@ -44,7 +44,6 @@ char** RemoveSaveFileName(int argc,char **argv){
 }
 
 int main(int argc, char** argv){
-    //int outFileName = strcmp(argv[1],"--out");
     char* SaveFileName = GetSaveFileName(argc,argv);
     char** flags = (strcmp(SaveFileName,"") == 0) ? argv : RemoveSaveFileName(argc,argv);
     int flags_number = (strcmp(SaveFileName,"") == 0) ? argc : argc - 2;
@@ -57,7 +56,15 @@ int main(int argc, char** argv){
         else    printf("Invalid key\n");
         return 0;
     }
-    if (flags_number == 2 || flags_number == 3){
+    if (flags_number == 3 && strcmp(flags[1],"--showtag") == 0){
+        printf("%s\n",ReadOfFile(flags[2]).tag);
+        return 0;
+    }
+    else if (flags_number == 3 && strcmp(flags[1],"--showid") == 0){
+        printf("%s\n",IDtoString(ReadOfFile(flags[2])));
+        return 0;
+    }
+    else if (flags_number == 2 || flags_number == 3){
         unsigned char* key = ReadKey(flags[1]);
         ID id = (flags_number == 2) ? CreateID(key,KEY_SIZE,"") : CreateID(key,KEY_SIZE,flags[2]);
         if (strcmp(SaveFileName,"") != 0){
